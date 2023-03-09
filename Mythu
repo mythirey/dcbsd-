@@ -1,0 +1,198 @@
+public class Book implements Comparable<Book>{
+    private int bookID;
+    private String bookName;
+    private int quantity;
+    private float price;
+    private String category;
+
+1111111.....
+
+@Override
+    public boolean equals(Object obj) {
+        Book other = (Book) obj;
+        if (this.bookID != other.bookID) {
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Book{" + "bookName=" + bookName + ", quantity=" + quantity + ", price=" + price + ", category=" + category + '}';
+    }
+    
+    @Override
+    public int compareTo(Book arg0) {
+        return (int)arg0.price - (int)price;
+    }
+////////////////////////////////
+@Override
+    public int compare(Book arg0, Book arg1) {
+        return arg0.getQuantity()- arg1.getQuantity();
+    }   
+-------------------------------------------------------------
+
+Creates new form MainGUI
+     */
+    ArrayList<Book> bookList;
+    DefaultListModel dList;
+    int maxID;
+    DefaultComboBoxModel dCombo;
+    public MainGUI() {
+        initComponents();
+        showPanel("card2");
+        
+        bookList=new ArrayList<>();
+        bookList.add(new Book(1001 ,"Becomig", 250, 26.40f, "Biography"));
+        bookList.add(new Book(1002 ,"You ", 125 , 12.29f, "Thriller"));
+        bookList.add(new Book(1003 ,"Spygate ", 300 , 18.37f, "Political"));
+    }
+    
+    void showPanel(String cName) {
+        CardLayout cL = (CardLayout) jPanel2.getLayout();
+        cL.show(jPanel2, cName);
+    }
+
+
+
+......................... (search )
+ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        showPanel("card3");
+        dList = new DefaultListModel();
+        for (Book i : bookList) {
+            dList.addElement(i);
+        }
+        jList1.setModel(dList);
+        jTextField1.setText("");
+
+
+.....................................
+
+ private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        dList = new DefaultListModel();
+        for (Book i : bookList) {
+            if (i.getBookName().contains(jTextField1.getText())) {
+                dList.addElement(i);
+            }
+        }
+        jList1.setModel(dList);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+.................................(panel 3 add button)
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        showPanel("card4");
+        ArrayList<Integer> idList = new ArrayList<>();
+        for (Book i : bookList) {
+            idList.add(i.getBookID());
+        }
+
+        Collections.sort(idList);
+        maxID = idList.get(idList.size() - 1) + 1;
+        jTextField2.setText("" + maxID);
+                                           
+................................(insert button)
+ private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        Book i=new Book(maxID,jTextField3.getText(),Integer.parseInt(jTextField4.getText()),
+                Float.parseFloat(jTextField5.getText()),jTextField6.getText());
+        bookList.add(i);
+        JOptionPane.showMessageDialog(rootPane, "Record Added Sucessfully");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jButton2ActionPerformed(evt);
+.................................(Delete)
+private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        showPanel("card5");
+
+        dCombo = new DefaultComboBoxModel();
+        for (Book i : bookList) {
+            dCombo.addElement(i);
+        }
+        jComboBox1.setModel(dCombo);
+
+        jLabel16.setText("");
+        jLabel13.setText("");
+        jLabel14.setText("");
+        jLabel15.setText("");
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        Book i = (Book) jComboBox1.getSelectedItem();
+
+        jLabel13.setText(i.getBookName());
+        jLabel14.setText("" + i.getQuantity());
+        jLabel15.setText("" + i.getPrice());
+        jLabel16.setText(i.getCategory());
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        Book i = (Book) jComboBox1.getSelectedItem();
+        int res = JOptionPane.showConfirmDialog(rootPane, "Remove " + i.getBookName(), "Confirmation", 1);
+        if (res == JOptionPane.YES_OPTION) {
+            bookList.remove(i);
+            JOptionPane.showMessageDialog(rootPane, "Record Removed Sucessfully");
+             jButton3ActionPerformed(evt);
+        }
+                 
+....................................................................................(update)
+private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        showPanel("card6");
+        dCombo = new DefaultComboBoxModel();
+        for (Book i : bookList) {
+            dCombo.addElement(i);
+        }
+        jComboBox2.setModel(dCombo);
+
+        jTextField14.setText("");
+        jTextField13.setText("");
+        jTextField12.setText("");
+        jTextField11.setText("");
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        Book i = (Book) jComboBox2.getSelectedItem();
+        jTextField14.setText(i.getBookName());
+        jTextField13.setText("" + i.getQuantity());
+        jTextField12.setText("" + i.getPrice());
+        jTextField11.setText("" + i.getCategory());
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        Book i = (Book) jComboBox2.getSelectedItem();
+        int res = JOptionPane.showConfirmDialog(rootPane, "Update", "Confirmation", 1);
+        if (res == JOptionPane.YES_OPTION) {
+            i.setBookName(jTextField14.getText());
+            i.setQuantity(Integer.parseInt(jTextField13.getText()));
+            i.setPrice(Float.parseFloat(jTextField12.getText()));
+            i.setCategory(jTextField11.getText());
+
+            JOptionPane.showMessageDialog(rootPane, "Record Updated");
+        }
+        jButton4ActionPerformed(evt);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+.....................................................(sort Button)
+
+private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        showPanel("card7");
+        dList = new DefaultListModel();
+        for (Book i : bookList) {
+            dList.addElement(i);
+        }
+        jList2.setModel(dList);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        Collections.sort(bookList);
+        jButton5ActionPerformed(evt);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        Collections.sort(bookList, new SortByQuantity());
+        jButton5ActionPerformed(evt);
+    }
+
